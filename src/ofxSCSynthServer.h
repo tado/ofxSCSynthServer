@@ -1,7 +1,10 @@
 #pragma once
 #include "ofMain.h"
 #include "ofxOsc.h"
+
+#if defined(TARGET_WIN32)
 #include <windows.h>
+#endif
 
 class ofxSCSynthServer {
 public:
@@ -10,6 +13,9 @@ public:
 	void loadSynthDefsDir(string path = ".\\data\\synthdefs");
 	void exit();
 
-	PROCESS_INFORMATION pi;
 	ofxOscSender sender;
+    
+#if defined(TARGET_WIN32)
+	PROCESS_INFORMATION pi;
+#endif
 };

@@ -4,8 +4,8 @@
 void ofApp::setup(){
 	scsynth = new ofxSCSynthServer();
 	scsynth->boot();
-	ofSleepMillis(5000);
-	scsynth->loadSynthDefsDir();
+	//ofSleepMillis(5000);
+	//scsynth->loadSynthDefsDir();
 }
 
 //--------------------------------------------------------------
