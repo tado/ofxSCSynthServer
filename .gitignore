@@ -21,7 +21,8 @@ addons/*
 apps/*
 
 # rule to ignore compiled / downloaded libs
-# /libs/*
+/libs/*
+!/libs/server
 !/libs/openFrameworks
 !/libs/openFrameworksCompiled
 
@@ -185,6 +186,9 @@ WallTestApp/config.make
 *.lib
 
 # Executables
-*.exe
+#*.exe
 *.out
 *.app
+
+!libs/server/win/*.dll
+!libs/server/win/*exe
