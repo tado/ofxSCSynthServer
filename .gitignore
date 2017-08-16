@@ -192,3 +192,5 @@ WallTestApp/config.make
 
 !libs/server/win/*.dll
 !libs/server/win/*exe
+!libs/server/mac/*
+!libs/server/MacOS/*
