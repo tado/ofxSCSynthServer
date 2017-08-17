@@ -1,98 +1,102 @@
 #include "ofApp.h"
 
 //--------------------------------------------------------------
-void ofApp::setup() {
-	ofBackground(0);
-
+void ofApp::setup(){
 	//create new sc server
 	server = new ofxSCSynthServer();
 	//boot scsynth
 	server->boot();
-}
+	//weit for boot...
+	ofSleepMillis(3000);
+	//load synthdef files
+	server->loadSynthDefsDir();
 
-//--------------------------------------------------------------
-void ofApp::update() {
-	if (synth != NULL && synth->created) {
-		float freq = ofMap(mouseY, 0, ofGetHeight(), 1000, 20);
-		synth->set("freq", freq);
-	}
-}
+	//create synth (using ofxSuperCollider)
+	synth = new ofxSCSynth("sine_harmonic");
+	synth->create(0, 0);
 
-//--------------------------------------------------------------
-void ofApp::draw() {
-	ofSetColor(255);
-	ofDrawBitmapString("[d] : load synthdefs", 20, 20);
-	ofDrawBitmapString("[a] : create new synth", 20, 30);
-	ofDrawBitmapString("[s] : stop synth", 20, 40);
+	ofBackground(0, 20, 50);
+	ofSetBackgroundAuto(false);
 }
 
 void ofApp::exit() {
-	server->exit();
+	synth->free();
 }
 
 //--------------------------------------------------------------
-void ofApp::keyPressed(int key) {
+void ofApp::update(){
+	
+}
+
+//--------------------------------------------------------------
+void ofApp::draw(){
+	ofEnableAlphaBlending();
+	ofSetColor(0, 20, 50, 2);
+	ofFill();
+	ofRect(0, 0, ofGetWidth(), ofGetHeight());
+}
+
+//--------------------------------------------------------------
+void ofApp::keyPressed(int key){
 
 }
 
 //--------------------------------------------------------------
-void ofApp::keyReleased(int key) {
-	if (key == 'd') {
-		//load synthdef files
-		server->loadSynthDefsDir();
+void ofApp::keyReleased(int key){
+
+}
+
+//--------------------------------------------------------------
+void ofApp::mouseMoved(int x, int y ){
+
+}
+
+//--------------------------------------------------------------
+void ofApp::mouseDragged(int x, int y, int button){
+	if (button == 0){
+		synth->set("freq", x + 40);
+		synth->set("amp", 1.0f - (float)y / ofGetHeight());
+		synth->set("pan", (float)x / ofGetHeight() - 0.5f);
+
+		ofSetColor(255, 255, 255, 100);
+		ofCircle(x, y, 10 * (1.0 - (float)y / ofGetHeight()));
 	}
-	if (key == 'a') {
-		//start synth
-		synth = new ofxSCSynth("sine");
-		synth->create();
+}
+
+//--------------------------------------------------------------
+void ofApp::mousePressed(int x, int y, int button){
+	if (button == 0){
+		this->mouseDragged(x, y, button);
+		synth->set("amp", 0.8f);
 	}
-	if (key == 's') {
-		//stop synth
-		synth->free();
-	}
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y) {
-
+void ofApp::mouseReleased(int x, int y, int button){
+	synth->set("amp", 0.1f);
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button) {
+void ofApp::mouseEntered(int x, int y){
 
 }
 
 //--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button) {
+void ofApp::mouseExited(int x, int y){
 
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button) {
+void ofApp::windowResized(int w, int h){
 
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseEntered(int x, int y) {
+void ofApp::gotMessage(ofMessage msg){
 
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseExited(int x, int y) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::windowResized(int w, int h) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo) {
+void ofApp::dragEvent(ofDragInfo dragInfo){ 
 
 }

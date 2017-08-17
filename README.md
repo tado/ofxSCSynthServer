@@ -1,6 +1,6 @@
 # ofxSCSynthServer
 
-Execute SuperCollider server (scsynth) from openFrameworks (mac/win).
+Execute SuperCollider server (scsynth) from openFrameworks (mac/win). Require ofxOsc.
 
 ## License
 

@@ -1,8 +1,7 @@
 #pragma once
-
 #include "ofMain.h"
+#include "ofxSuperCollider.h"
 #include "ofxSCSynthServer.h"
-#include "ofxOsc.h"
 
 class ofApp : public ofBaseApp {
 
@@ -25,5 +24,10 @@ public:
 	void gotMessage(ofMessage msg);
 
 	ofxSCSynthServer *server;
+
 	ofxSCSynth *synth;
+	ofxSCSynth	*playbuf;
+	ofxSCBus	*bus;
+	ofxSCSynth	*delay;
+	ofxSCBuffer	*buffer;
 };
