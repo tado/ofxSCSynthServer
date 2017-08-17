@@ -1,4 +1,4 @@
-# ofxScsynthServer
+# ofxSCSynthServer
 
 Execute SuperCollider server (scsynth) from openFrameworks (mac/win).
 
