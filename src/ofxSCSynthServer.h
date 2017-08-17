@@ -1,6 +1,7 @@
 #pragma once
 #include "ofMain.h"
 #include "ofxOsc.h"
+#include "ofxSCSynth.h"
 
 #if defined(TARGET_WIN32)
 #include <windows.h>

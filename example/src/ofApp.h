@@ -24,6 +24,7 @@ public:
 	void dragEvent(ofDragInfo dragInfo);
 	void gotMessage(ofMessage msg);
 
-	ofxSCSynthServer *scsynth;
+	ofxSCSynthServer *server;
+	ofxSCSynth *synth;
 	ofxOscSender sender;
 };
