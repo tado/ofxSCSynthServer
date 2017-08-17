@@ -7,16 +7,16 @@ ofxSCSynthServer::ofxSCSynthServer() {
 void ofxSCSynthServer::boot(string hostname, unsigned int port) {
 
 #if defined(TARGET_OSX)
-    string command = "../../../../../../../addons/ofxSCSynthServer/libs/server/mac/scsynth";
-    string arg =  "-u " + ofToString(port);
-    if ((pid = fork()) < 0) {
-        cout << "scsynth boot error" << endl;
-    }
-    else if (pid == 0) {
-        execlp(command.c_str(), "scsynth", "-u", ofToString(port).c_str(), NULL);
-    }
+	string command = "../../../../../../../addons/ofxSCSynthServer/libs/server/mac/scsynth";
+	string arg = "-u " + ofToString(port);
+	if ((pid = fork()) < 0) {
+		cout << "scsynth boot error" << endl;
+	}
+	else if (pid == 0) {
+		execlp(command.c_str(), "scsynth", "-u", ofToString(port).c_str(), NULL);
+	}
 #endif
-    
+
 #if defined(TARGET_WIN32)
 	// start scsynth
 	STARTUPINFOA si;
@@ -52,7 +52,7 @@ void ofxSCSynthServer::loadSynthDefsDir(string path) {
 
 void ofxSCSynthServer::exit() {
 #if defined(TARGET_OSX)
-    kill(pid, 15);
+	kill(pid, 15);
 #endif
 #if defined(TARGET_WIN32)
 	CloseHandle(pi.hThread);
