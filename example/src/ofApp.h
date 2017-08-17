@@ -25,5 +25,5 @@ public:
 	void gotMessage(ofMessage msg);
 
 	ofxSCSynthServer *scsynth;
-    ofxOscSender sender;
+	ofxOscSender sender;
 };
