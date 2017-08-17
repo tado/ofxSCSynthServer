@@ -24,10 +24,5 @@ public:
 	void gotMessage(ofMessage msg);
 
 	ofxSCSynthServer *server;
-
 	ofxSCSynth *synth;
-	ofxSCSynth	*playbuf;
-	ofxSCBus	*bus;
-	ofxSCSynth	*delay;
-	ofxSCBuffer	*buffer;
 };
