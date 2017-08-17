@@ -194,3 +194,6 @@ WallTestApp/config.make
 !libs/server/win/*exe
 !libs/server/mac/*
 !libs/server/MacOS/*
+*.pbxproj
+*.xcconfig
+example/Makefile
