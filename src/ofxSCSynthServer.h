@@ -15,6 +15,10 @@ public:
 
 	ofxOscSender sender;
     
+#if defined(TARGET_OSX)
+    pid_t pid;
+#endif
+    
 #if defined(TARGET_WIN32)
 	PROCESS_INFORMATION pi;
 #endif

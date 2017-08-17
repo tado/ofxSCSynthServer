@@ -7,8 +7,15 @@ ofxSCSynthServer::ofxSCSynthServer() {
 void ofxSCSynthServer::boot(string hostname, unsigned int port) {
 
 #if defined(TARGET_OSX)
-    string command = "../../../../../../../addons/ofxSCSynthServer/libs/server/mac/scsynth -u " + ofToString(port);
-    system(command.c_str());
+    string command = "../../../../../../../addons/ofxSCSynthServer/libs/server/mac/scsynth";
+    string arg =  "-u " + ofToString(port);
+    if ((pid = fork()) < 0) {
+        puts("error");
+    }
+    else if (pid == 0) {
+        puts("child");
+        execlp(command.c_str(), "scsynth", "-u", ofToString(port).c_str(), NULL);
+    }
 #endif
     
 #if defined(TARGET_WIN32)
@@ -32,7 +39,6 @@ void ofxSCSynthServer::boot(string hostname, unsigned int port) {
 		&pi
 	);
 #endif
-
 	//OSC setup
 	sender.setup(hostname, port);
 }
@@ -47,7 +53,7 @@ void ofxSCSynthServer::loadSynthDefsDir(string path) {
 
 void ofxSCSynthServer::exit() {
 #if defined(TARGET_OSX)
-    system("pause");
+    kill(pid, 15);
 #endif
 #if defined(TARGET_WIN32)
 	CloseHandle(pi.hThread);
