@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "ofxSCSynthServer.h"
+#include "ofxOsc.h"
 
 class ofApp : public ofBaseApp {
 
@@ -24,4 +25,5 @@ public:
 	void gotMessage(ofMessage msg);
 
 	ofxSCSynthServer *scsynth;
+    ofxOscSender sender;
 };

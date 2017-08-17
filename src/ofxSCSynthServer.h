@@ -10,7 +10,12 @@ class ofxSCSynthServer {
 public:
 	ofxSCSynthServer();
 	void boot(string hostname = "127.0.0.1", unsigned int port = 57110);
-	void loadSynthDefsDir(string path = ".\\data\\synthdefs");
+#if defined(TARGET_OSX)
+    void loadSynthDefsDir(string path = "../../../data/synthdefs");
+#endif
+#if defined(TARGET_WIN32)
+    void loadSynthDefsDir(string path = ".\\data\\synthdefs");
+#endif
 	void exit();
 
 	ofxOscSender sender;

@@ -10,10 +10,9 @@ void ofxSCSynthServer::boot(string hostname, unsigned int port) {
     string command = "../../../../../../../addons/ofxSCSynthServer/libs/server/mac/scsynth";
     string arg =  "-u " + ofToString(port);
     if ((pid = fork()) < 0) {
-        puts("error");
+        cout << "scsynth boot error" << endl;
     }
     else if (pid == 0) {
-        puts("child");
         execlp(command.c_str(), "scsynth", "-u", ofToString(port).c_str(), NULL);
     }
 #endif
