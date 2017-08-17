@@ -5,7 +5,7 @@ ofxSCSynth::ofxSCSynth(string name, string hostname, unsigned int port){
 	this->hostname = hostname;
 	this->port = port;
 	created = false;
-	synthId = ofGetFrameNum();
+	synthId = ofGetFrameNum() % 10000;
 	sender.setup(hostname, port);
 }
 
@@ -13,27 +13,32 @@ ofxSCSynth::~ofxSCSynth(){
 }
 
 void ofxSCSynth::create(int position, int groupID) {
-	ofxOscBundle b;
-	ofxOscMessage m;
-	m.setAddress("/s_new");
-	m.addStringArg(name);
-	m.addIntArg(synthId);
-	m.addIntArg(0);
-	m.addIntArg(0);
-	sender.sendMessage(m);
-	created = true;
+	if (created == false) {
+		ofxOscBundle b;
+		ofxOscMessage m;
+		m.setAddress("/s_new");
+		m.addStringArg(name);
+		m.addIntArg(synthId);
+		m.addIntArg(0);
+		m.addIntArg(0);
+		sender.sendMessage(m);
+		created = true;
+	}
 }
 
 void ofxSCSynth::free() {
-	ofxOscMessage m;
-	m.setAddress("/n_free");
-	m.addInt32Arg(synthId);
-	sender.sendMessage(m);
+	if (created) {
+		ofxOscMessage m;
+		m.setAddress("/n_free");
+		m.addInt32Arg(synthId);
+		sender.sendMessage(m);
+		created = false;
+	}
 }
 
 void ofxSCSynth::set(string arg, double value)
 {
-	if (created){
+	if (created) {
 		ofxOscMessage m;
 		m.setAddress("/n_set");
 		m.addIntArg(synthId);

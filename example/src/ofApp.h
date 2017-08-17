@@ -26,5 +26,4 @@ public:
 
 	ofxSCSynthServer *server;
 	ofxSCSynth *synth;
-	ofxOscSender sender;
 };

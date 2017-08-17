@@ -38,6 +38,7 @@ void ofxSCSynthServer::boot(string hostname, unsigned int port) {
 		&pi
 	);
 #endif
+	
 	//OSC setup
 	sender.setup(hostname, port);
 }
