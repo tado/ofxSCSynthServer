@@ -1,6 +1,11 @@
 # ofxSCSynthServer
 
-Execute SuperCollider server (scsynth) from openFrameworks (mac/win). Require ofxOsc.
+Execute SuperCollider server (scsynth) from openFrameworks (mac/win).
+
+This addon require
+
+- [ofxOsc](https://github.com/openframeworks/openFrameworks/tree/master/addons/ofxOsc)
+- [ofxSuperCollider](https://github.com/genekogan/ofxSuperCollider)
 
 ## License
 
