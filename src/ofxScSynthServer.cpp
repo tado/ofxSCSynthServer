@@ -1,14 +1,14 @@
 #include "ofxSCSynthServer.h"
 
 ofxSCSynthServer::ofxSCSynthServer() {
-
+    
 }
 
 void ofxSCSynthServer::boot(string hostname, unsigned int port) {
-
+    
 #if defined(TARGET_OSX)
-	string command = "../../../../../../../addons/ofxSCSynthServer/libs/server/mac/scsynth";
-	string arg = "-u " + ofToString(port);
+    string command = "../../../../../../../addons/ofxSCSynthServer/libs/server/mac/scsynth";
+    string arg = "-u " + ofToString(port);
     pid_t parent = getpid();
     pid_t child = fork();
     int status;
@@ -20,40 +20,39 @@ void ofxSCSynthServer::boot(string hostname, unsigned int port) {
     } else {
         execlp(command.c_str(), "scsynth", "-u", ofToString(port).c_str(), NULL);
     }
-    cout << "pid = " << pid << ", status = " << status << endl;
     ofSleepMillis(4000);
 #endif
-
+    
 #if defined( __WIN32__ ) || defined( _WIN32 ) || defined( __WIN64__ ) || defined( _WIN64 )
-	// start scsynth
-	STARTUPINFOA si;
-	GetStartupInfoA(&si);
-
-	string strCmd = "..\\..\\..\\..\\addons\\ofxSCSynthServer\\libs\\server\\win\\scsynth.exe -u " + ofToString(port);
-	LPSTR command = LPSTR(strCmd.c_str());
-
-	CreateProcessA(NULL, command, NULL, NULL, FALSE, NULL, NULL, NULL, &si, &pi);
-	WaitForSingleObject(pi.hProcess, 2000);
+    // start scsynth
+    STARTUPINFOA si;
+    GetStartupInfoA(&si);
+    
+    string strCmd = "..\\..\\..\\..\\addons\\ofxSCSynthServer\\libs\\server\\win\\scsynth.exe -u " + ofToString(port);
+    LPSTR command = LPSTR(strCmd.c_str());
+    
+    CreateProcessA(NULL, command, NULL, NULL, FALSE, NULL, NULL, NULL, &si, &pi);
+    WaitForSingleObject(pi.hProcess, 2000);
 #endif
-	//OSC setup
-	sender.setup(hostname, port);
+    //OSC setup
+    sender.setup(hostname, port);
 }
 
 void ofxSCSynthServer::loadSynthDefsDir(string path) {
-	//load syntdef
-	ofxOscMessage m;
-	m.setAddress("/d_loadDir");
-	m.addStringArg(path);
-	sender.sendMessage(m);
+    //load syntdef
+    ofxOscMessage m;
+    m.setAddress("/d_loadDir");
+    m.addStringArg(path);
+    sender.sendMessage(m);
 }
 
 void ofxSCSynthServer::exit() {
 #if defined(TARGET_OSX)
-	kill(pid, SIGKILL);
+    kill(pid, SIGKILL);
 #endif
-
+    
 #if defined( __WIN32__ ) || defined( _WIN32 ) || defined( __WIN64__ ) || defined( _WIN64 )
-	CloseHandle(pi.hThread);
-	TerminateProcess(pi.hProcess, 0);
+    CloseHandle(pi.hThread);
+    TerminateProcess(pi.hProcess, 0);
 #endif
 }
