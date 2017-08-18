@@ -17,7 +17,7 @@ void ofxSCSynthServer::boot(string hostname, unsigned int port) {
 	}
 #endif
 
-#if defined(TARGET_WIN32)
+#if defined( __WIN32__ ) || defined( _WIN32 ) || defined( __WIN64__ ) || defined( _WIN64 )
 	// start scsynth
 	STARTUPINFOA si;
 	GetStartupInfoA(&si);
@@ -55,7 +55,8 @@ void ofxSCSynthServer::exit() {
 #if defined(TARGET_OSX)
 	kill(pid, 15);
 #endif
-#if defined(TARGET_WIN32)
+
+#if defined( __WIN32__ ) || defined( _WIN32 ) || defined( __WIN64__ ) || defined( _WIN64 )
 	CloseHandle(pi.hThread);
 	TerminateProcess(pi.hProcess, 0);
 #endif

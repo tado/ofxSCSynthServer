@@ -2,7 +2,7 @@
 #include "ofMain.h"
 #include "ofxOsc.h"
 
-#if defined(TARGET_WIN32)
+#if defined( __WIN32__ ) || defined( _WIN32 ) || defined( __WIN64__ ) || defined( _WIN64 )
 #include <windows.h>
 #endif
 
@@ -13,7 +13,7 @@ public:
 #if defined(TARGET_OSX)
 	void loadSynthDefsDir(string path = "../../../data/synthdefs");
 #endif
-#if defined(TARGET_WIN32)
+#if defined( __WIN32__ ) || defined( _WIN32 ) || defined( __WIN64__ ) || defined( _WIN64 )
 	void loadSynthDefsDir(string path = ".\\data\\synthdefs");
 #endif
 	void exit();
@@ -24,7 +24,7 @@ public:
 	pid_t pid;
 #endif
 
-#if defined(TARGET_WIN32)
+#if defined( __WIN32__ ) || defined( _WIN32 ) || defined( __WIN64__ ) || defined( _WIN64 )
 	PROCESS_INFORMATION pi;
 #endif
 };
