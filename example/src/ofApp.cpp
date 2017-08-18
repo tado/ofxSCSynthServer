@@ -6,8 +6,6 @@ void ofApp::setup() {
 	server = new ofxSCSynthServer();
 	//boot scsynth
 	server->boot();
-	//weit for boot...
-	ofSleepMillis(3000);
 	//load synthdef files
 	server->loadSynthDefsDir();
 

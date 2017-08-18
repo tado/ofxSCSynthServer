@@ -14,6 +14,7 @@ void ofxSCSynthServer::boot(string hostname, unsigned int port) {
 	}
 	else if (pid == 0) {
 		execlp(command.c_str(), "scsynth", "-u", ofToString(port).c_str(), NULL);
+		ofSleepMillis(2000);
 	}
 #endif
 
@@ -25,18 +26,8 @@ void ofxSCSynthServer::boot(string hostname, unsigned int port) {
 	string strCmd = "..\\..\\..\\..\\addons\\ofxSCSynthServer\\libs\\server\\win\\scsynth.exe -u " + ofToString(port);
 	LPSTR command = LPSTR(strCmd.c_str());
 
-	CreateProcessA(
-		NULL,
-		command,
-		NULL,
-		NULL,
-		FALSE,
-		NULL,
-		NULL,
-		NULL,
-		&si,
-		&pi
-	);
+	CreateProcessA(NULL, command, NULL, NULL, FALSE, NULL, NULL, NULL, &si, &pi);
+	WaitForSingleObject(pi.hProcess, 2000);
 #endif
 	
 	//OSC setup
