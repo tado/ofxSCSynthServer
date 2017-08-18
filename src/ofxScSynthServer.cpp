@@ -9,13 +9,19 @@ void ofxSCSynthServer::boot(string hostname, unsigned int port) {
 #if defined(TARGET_OSX)
 	string command = "../../../../../../../addons/ofxSCSynthServer/libs/server/mac/scsynth";
 	string arg = "-u " + ofToString(port);
-	if ((pid = fork()) < 0) {
-		cout << "scsynth boot error" << endl;
-	}
-	else if (pid == 0) {
-		execlp(command.c_str(), "scsynth", "-u", ofToString(port).c_str(), NULL);
-		ofSleepMillis(2000);
-	}
+    pid_t parent = getpid();
+    pid_t child = fork();
+    int status;
+    if (child == -1){
+        cout << "error, failed to boot scsynth" << endl;
+    } else if (child > 0) {
+        pid = child;
+        waitpid(child, &status, 1);
+    } else {
+        execlp(command.c_str(), "scsynth", "-u", ofToString(port).c_str(), NULL);
+    }
+    cout << "pid = " << pid << ", status = " << status << endl;
+    ofSleepMillis(4000);
 #endif
 
 #if defined( __WIN32__ ) || defined( _WIN32 ) || defined( __WIN64__ ) || defined( _WIN64 )
@@ -29,7 +35,6 @@ void ofxSCSynthServer::boot(string hostname, unsigned int port) {
 	CreateProcessA(NULL, command, NULL, NULL, FALSE, NULL, NULL, NULL, &si, &pi);
 	WaitForSingleObject(pi.hProcess, 2000);
 #endif
-	
 	//OSC setup
 	sender.setup(hostname, port);
 }
@@ -44,7 +49,7 @@ void ofxSCSynthServer::loadSynthDefsDir(string path) {
 
 void ofxSCSynthServer::exit() {
 #if defined(TARGET_OSX)
-	kill(pid, 15);
+	kill(pid, SIGKILL);
 #endif
 
 #if defined( __WIN32__ ) || defined( _WIN32 ) || defined( __WIN64__ ) || defined( _WIN64 )

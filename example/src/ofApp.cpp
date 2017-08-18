@@ -19,6 +19,7 @@ void ofApp::setup() {
 
 void ofApp::exit() {
 	synth->free();
+    server->exit();
 }
 
 //--------------------------------------------------------------
@@ -31,7 +32,7 @@ void ofApp::draw() {
 	ofEnableAlphaBlending();
 	ofSetColor(0, 20, 50, 2);
 	ofFill();
-	ofRect(0, 0, ofGetWidth(), ofGetHeight());
+	ofDrawRectangle(0, 0, ofGetWidth(), ofGetHeight());
 }
 
 //--------------------------------------------------------------
