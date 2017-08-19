@@ -9,7 +9,7 @@
 class ofxSCSynthServer {
 public:
 	ofxSCSynthServer();
-	void boot(string hostname = "127.0.0.1", unsigned int port = 57110);
+	bool boot(string hostname = "127.0.0.1", unsigned int port = 57110);
 #if defined(TARGET_OSX)
 	void loadSynthDefsDir(string path = "../../../data/synthdefs");
 #endif

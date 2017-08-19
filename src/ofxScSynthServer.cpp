@@ -1,10 +1,9 @@
 #include "ofxSCSynthServer.h"
 
 ofxSCSynthServer::ofxSCSynthServer() {
-    
 }
 
-void ofxSCSynthServer::boot(string hostname, unsigned int port) {
+bool ofxSCSynthServer::boot(string hostname, unsigned int port) {
     
 #if defined(TARGET_OSX)
     string command = "../../../../../../../addons/ofxSCSynthServer/libs/server/mac/scsynth";
@@ -28,14 +27,23 @@ void ofxSCSynthServer::boot(string hostname, unsigned int port) {
     STARTUPINFOA si;
     GetStartupInfoA(&si);
     
-    string strCmd = "..\\..\\..\\..\\addons\\ofxSCSynthServer\\libs\\server\\win\\scsynth.exe -u " + ofToString(port);
-    LPSTR command = LPSTR(strCmd.c_str());
+	string strCmd = "..\\..\\..\\..\\addons\\ofxSCSynthServer\\libs\\server\\win\\scsynth.exe -u " + ofToString(port);
+	LPSTR command = LPSTR(strCmd.c_str());
     
-    CreateProcessA(NULL, command, NULL, NULL, FALSE, NULL, NULL, NULL, &si, &pi);
-    WaitForSingleObject(pi.hProcess, 2000);
+	bool bSucess = false;
+	if (!CreateProcessA(NULL, command, NULL, NULL, TRUE, NULL, NULL, NULL, &si, &pi)) {
+		cout << "Error: CreateProcess for boot scsynth" << endl;
+	} else {
+		WaitForSingleObject(pi.hProcess, 4000);
+	}
 #endif
-    //OSC setup
+    
+	//OSC setup
     sender.setup(hostname, port);
+	//load synthdefs
+	loadSynthDefsDir();
+
+	return true;
 }
 
 void ofxSCSynthServer::loadSynthDefsDir(string path) {
@@ -52,7 +60,6 @@ void ofxSCSynthServer::exit() {
 #endif
     
 #if defined( __WIN32__ ) || defined( _WIN32 ) || defined( __WIN64__ ) || defined( _WIN64 )
-    CloseHandle(pi.hThread);
     TerminateProcess(pi.hProcess, 0);
 #endif
 }
