@@ -17,9 +17,9 @@ bool ofxSCSynthServer::boot(string hostname, unsigned int port) {
         pid = child;
         waitpid(child, &status, 1);
     } else {
-        execlp(command.c_str(), "scsynth", "-u", ofToString(port).c_str(), NULL);
+        execlp(command.c_str(), "scsynth", "-D 0 -u", ofToString(port).c_str(), NULL);
     }
-    ofSleepMillis(4000);
+    ofSleepMillis(2000);
 #endif
     
 #if defined( __WIN32__ ) || defined( _WIN32 ) || defined( __WIN64__ ) || defined( _WIN64 )
@@ -27,14 +27,14 @@ bool ofxSCSynthServer::boot(string hostname, unsigned int port) {
     STARTUPINFOA si;
     GetStartupInfoA(&si);
     
-	string strCmd = "..\\..\\..\\..\\addons\\ofxSCSynthServer\\libs\\server\\win\\scsynth.exe -u " + ofToString(port);
+	string strCmd = "..\\..\\..\\..\\addons\\ofxSCSynthServer\\libs\\server\\win\\scsynth.exe -D 0 -u " + ofToString(port);
 	LPSTR command = LPSTR(strCmd.c_str());
     
 	bool bSucess = false;
 	if (!CreateProcessA(NULL, command, NULL, NULL, TRUE, NULL, NULL, NULL, &si, &pi)) {
 		cout << "Error: CreateProcess for boot scsynth" << endl;
 	} else {
-		WaitForSingleObject(pi.hProcess, 4000);
+		WaitForSingleObject(pi.hProcess, 2000);
 	}
 #endif
     
@@ -42,7 +42,7 @@ bool ofxSCSynthServer::boot(string hostname, unsigned int port) {
     sender.setup(hostname, port);
 	//load synthdefs
 	loadSynthDefsDir();
-
+	ofSleepMillis(2000);
 	return true;
 }
 

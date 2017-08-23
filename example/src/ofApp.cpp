@@ -6,8 +6,6 @@ void ofApp::setup() {
 	server = new ofxSCSynthServer();
 	//boot scsynth
 	server->boot();
-	//load synthdef files
-	server->loadSynthDefsDir();
 
 	//create synth (using ofxSuperCollider)
 	synth = new ofxSCSynth("sine_harmonic");
